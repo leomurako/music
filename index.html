@@ -1,4 +1,14 @@
-<div class="player">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="player">
         <div class="cover">
             <img src="https://raw.githubusercontent.com/hossein-ghanbari/js-music-player/refs/heads/master/autumn.jpg" alt="">
         </div>
@@ -21,7 +31,7 @@
             <input type="range" step="1" class="seekbar" value="0" min="0" max="100" oninput="handleSeekBar()">
 
             <audio class="music-element">
-                <source src="songs/Walking with you.mp3" type="audio/mp3">
+                <source src="songs/Walking with you.mp3" type="audio/mpeg">
             </audio>
             <span class="current-time">0:0</span><span class="duration">0:0</span>
             <span class="play" onclick="handlePlay()">
@@ -29,3 +39,7 @@
             </span>
         </div>
     </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
