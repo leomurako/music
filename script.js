@@ -1,82 +1,160 @@
-// player
-var music = document.querySelector('.music-element')
-var playBtn = document.querySelector('.play')
-var seekbar = document.querySelector('.seekbar')
-var currentTime = document.querySelector('.current-time')
-var duration = document.querySelector('.duration')
+// script.js (playlist対応版)
 
-function handlePlay() {
-    if (music.paused) {
-        music.play();
-        playBtn.className = 'pause'
-        playBtn.innerHTML = '<i class="material-icons">pause</i>'
-    } else {
-        music.pause();
-        playBtn.className = 'play'
-        playBtn.innerHTML = '<i class="material-icons">play_arrow</i>'
-    }
-    music.addEventListener('ended', function () {
-        playBtn.className = 'play'
-        playBtn.innerHTML = '<i class="material-icons">play_arrow</i>'
-        music.currentTime = 0
+const music = document.getElementById('music');
+window.music = music; // index.html の inline oninput 互換のためグローバルに配置
+
+const playBtn = document.getElementById('playBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const seekbar = document.querySelector('.seekbar');
+const currentTime = document.querySelector('.current-time');
+const duration = document.querySelector('.duration');
+
+const titleEl = document.getElementById('title');
+const singerEl = document.getElementById('singer');
+const coverImg = document.getElementById('coverImg');
+const playlistEl = document.getElementById('playlist');
+
+const volumeRange = document.querySelector('.volume-range');
+const volumeDown = document.querySelector('.volume-down');
+const volumeUp = document.querySelector('.volume-up');
+const volIcon = document.querySelector('.volume');
+const volBox = document.querySelector('.volume-box');
+const favIcon = document.querySelector('.favorite');
+const repIcon = document.querySelector('.repeat');
+
+// プレイリスト（必要に応じてパスや項目を編集）
+const tracks = [
+  { title: "Walking with you", singer: "Novelbright", src: "songs/Walking with you.mp3", cover: "images/walkingwithyou.jpg" },
+  { title: "Track 2", singer: "Artist 2", src: "songs/track2.mp3", cover: "images/cover2.jpg" },
+  { title: "Track 3", singer: "Artist 3", src: "songs/track3.mp3", cover: "images/cover3.jpg" }
+];
+
+let currentIndex = 0;
+let isPlaying = false;
+
+function pad(n) { return n < 10 ? '0' + n : '' + n }
+
+function renderPlaylist() {
+  playlistEl.innerHTML = '';
+  tracks.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.textContent = `${t.title} — ${t.singer}`;
+    li.dataset.index = i;
+    li.classList.toggle('active', i === currentIndex);
+    li.addEventListener('click', () => {
+      loadTrack(i);
+      playTrack();
     });
+    playlistEl.appendChild(li);
+  });
 }
+
+function updateUI() {
+  titleEl.textContent = tracks[currentIndex].title;
+  singerEl.textContent = tracks[currentIndex].singer;
+  if (tracks[currentIndex].cover) coverImg.src = tracks[currentIndex].cover;
+  playBtn.className = isPlaying ? 'pause' : 'play';
+  playBtn.innerHTML = `<i class="material-icons">${isPlaying ? 'pause' : 'play_arrow'}</i>`;
+  [...playlistEl.children].forEach(li => {
+    li.classList.toggle('active', Number(li.dataset.index) === currentIndex);
+  });
+}
+
+function loadTrack(index) {
+  if (index < 0 || index >= tracks.length) return;
+  currentIndex = index;
+  music.src = tracks[currentIndex].src;
+  music.load();
+  updateUI();
+}
+
+function playTrack() {
+  music.play().then(() => {
+    isPlaying = true;
+    updateUI();
+  }).catch(err => {
+    console.warn('再生に失敗しました:', err);
+  });
+}
+
+function pauseTrack() {
+  music.pause();
+  isPlaying = false;
+  updateUI();
+}
+
+function togglePlayPause() {
+  if (music.paused) playTrack(); else pauseTrack();
+}
+
+function nextTrack() {
+  const next = (currentIndex + 1) % tracks.length;
+  loadTrack(next);
+  playTrack();
+}
+
+function prevTrack() {
+  const prev = (currentIndex - 1 + tracks.length) % tracks.length;
+  loadTrack(prev);
+  playTrack();
+}
+
+// イベント登録
+playBtn.addEventListener('click', togglePlayPause);
+nextBtn.addEventListener('click', nextTrack);
+prevBtn.addEventListener('click', prevTrack);
+
+music.addEventListener('ended', () => {
+  // audio.loop が true のときは ended は呼ばれないためここでの next は問題無し
+  nextTrack();
+});
 
 music.onloadeddata = function () {
-    seekbar.max = music.duration
-    var ds = parseInt(music.duration % 60)
-    var dm = parseInt((music.duration / 60) % 60)
-    duration.innerHTML = dm + ':' + ds
+  seekbar.max = Math.floor(music.duration || 0);
+  const ds = Math.floor(music.duration % 60);
+  const dm = Math.floor((music.duration / 60) % 60);
+  duration.innerHTML = dm + ':' + pad(ds);
 }
-music.ontimeupdate = function () { seekbar.value = music.currentTime }
-handleSeekBar = function () { music.currentTime = seekbar.value }
-music.addEventListener('timeupdate', function () {
-    var cs = parseInt(music.currentTime % 60)
-    var cm = parseInt((music.currentTime / 60) % 60)
-    currentTime.innerHTML = cm + ':' + cs
-}, false)
 
+music.ontimeupdate = function () {
+  seekbar.value = Math.floor(music.currentTime || 0);
+  const cs = Math.floor(music.currentTime % 60);
+  const cm = Math.floor((music.currentTime / 60) % 60);
+  currentTime.innerHTML = cm + ':' + pad(cs);
+}
+
+function handleSeekBar() { music.currentTime = seekbar.value }
+window.handleSeekBar = handleSeekBar; // index.html の inline 呼び出しと互換性を保つ
 
 // like
-var favIcon = document.querySelector('.favorite')
-function handleFavorite() {
-    favIcon.classList.toggle('active');
-}
-
+function handleFavorite() { favIcon.classList.toggle('active'); }
+window.handleFavorite = handleFavorite;
 
 // repeat
-var repIcon = document.querySelector('.repeat')
 function handleRepeat() {
-    if (music.loop == true) {
-        music.loop = false
-        repIcon.classList.toggle('active')
-    }
-    else {
-        music.loop = true
-        repIcon.classList.toggle('active')
-    }
+  music.loop = !music.loop;
+  repIcon.classList.toggle('active');
 }
+window.handleRepeat = handleRepeat;
 
 // volume
-var volIcon = document.querySelector('.volume')
-var volBox = document.querySelector('.volume-box')
-var volumeRange = document.querySelector('.volume-range')
-var volumeDown = document.querySelector('.volume-down')
-var volumeUp = document.querySelector('.volume-up')
-
 function handleVolume() {
-    volIcon.classList.toggle('active')
-    volBox.classList.toggle('active')
+  volIcon.classList.toggle('active');
+  volBox.classList.toggle('active');
 }
+window.handleVolume = handleVolume;
 
-volumeDown.addEventListener('click', handleVolumeDown);
-volumeUp.addEventListener('click', handleVolumeUp);
+volumeDown.addEventListener('click', () => {
+  volumeRange.value = Math.max(0, Number(volumeRange.value) - 20);
+  music.volume = volumeRange.value / 100;
+});
+volumeUp.addEventListener('click', () => {
+  volumeRange.value = Math.min(100, Number(volumeRange.value) + 20);
+  music.volume = volumeRange.value / 100;
+});
 
-function handleVolumeDown() {
-    volumeRange.value = Number(volumeRange.value) - 20
-    music.volume = volumeRange.value / 100
-}
-function handleVolumeUp() {
-    volumeRange.value = Number(volumeRange.value) + 20
-    music.volume = volumeRange.value / 100
-}
+// 初期化
+renderPlaylist();
+loadTrack(0);
+music.volume = (volumeRange && volumeRange.value) ? volumeRange.value / 100 : 0.8;
