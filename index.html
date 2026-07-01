@@ -10,11 +10,11 @@
 <body>
     <div class="player">
         <div class="cover">
-            <img src="images/walkingwithyou.jpg" alt="">
+            <img id="coverImg" src="images/walkingwithyou.jpg" alt="">
         </div>
         <div class="info">
-            <div class="title">Walking with you</div>
-            <div class="singer">Novelbright</div>
+            <div id="title" class="title">Walking with you</div>
+            <div id="singer" class="singer">Novelbright</div>
         </div>
         <div class="volume-box">
             <span class="volume-down"><i class="material-icons">remove</i></span>
@@ -30,14 +30,24 @@
         <div class="music-box">
             <input type="range" step="1" class="seekbar" value="0" min="0" max="100" oninput="handleSeekBar()">
 
-            <audio class="music-element">
-                <source src="songs/Walking with you.mp3" type="audio/mpeg">
-            </audio>
+            <audio class="music-element" id="music" preload="metadata"></audio>
             <span class="current-time">0:0</span><span class="duration">0:0</span>
-            <span class="play" onclick="handlePlay()">
-                <i class="material-icons">play_arrow</i>
-            </span>
+
+            <div class="controls-row">
+                <span id="prevBtn" class="prev">
+                    <i class="material-icons">skip_previous</i>
+                </span>
+                <span id="playBtn" class="play">
+                    <i class="material-icons">play_arrow</i>
+                </span>
+                <span id="nextBtn" class="next">
+                    <i class="material-icons">skip_next</i>
+                </span>
+            </div>
         </div>
+
+        <h2>プレイリスト</h2>
+        <ul id="playlist" class="playlist"></ul>
     </div>
 
     <script src="script.js"></script>
