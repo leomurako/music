@@ -27,7 +27,7 @@ const repIcon = document.querySelector('.repeat');
 const tracks = [
   { title: "Walking with you", singer: "Novelbright", src: "songs/Walking_with_you.mp3", cover: "images/walkingwithyou.jpg" },
   { title: "It's Me", singer: "ILLIT", src: "songs/It's_Me.mp3", cover: "images/it'sme.jpg" },
-  { title: "Track 3", singer: "Artist 3", src: "songs/track3.mp3", cover: "images/cover3.jpg" }
+  { title: "ツキミソウ", singer: "Novelbright", src: "songs/tukimisou.mp3", cover: "images/tukimisou.jpg" }
 ];
 
 let currentIndex = 0;
