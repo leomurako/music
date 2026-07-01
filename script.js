@@ -24,11 +24,12 @@ const favIcon = document.querySelector('.favorite');
 const repIcon = document.querySelector('.repeat');
 
 // プレイリスト（必要に応じてパスや項目を編集）
+// color1 / color2 は背景グラデーションのフォールバック色として使えます（画像抽出に失敗した場合に利用）
 const tracks = [
-  { title: "Walking with you", singer: "Novelbright", src: "songs/Walking_with_you.mp3", cover: "images/walkingwithyou.jpg" },
-  { title: "It's Me", singer: "ILLIT", src: "songs/It's_Me.mp3", cover: "images/it'sme.jpg" },
-  { title: "ツキミソウ", singer: "Novelbright", src: "songs/tukimisou.mp3", cover: "images/tukimisou.jpg" },
-  { title: "Almond Chocolate", singer: "ILLIT", src: "songs/almond_chocolate.mp3", cover: "images/almond_chocolate.jpg" }
+  { title: "Walking with you", singer: "Novelbright", src: "songs/Walking_with_you.mp3", cover: "images/walkingwithyou.jpg", color1: "#FFB4C6", color2: "#7C5CFF" },
+  { title: "It's Me", singer: "ILLIT", src: "songs/It's_Me.mp3", cover: "images/it'sme.jpg", color1: "#8FE3D7", color2: "#2D9CDB" },
+  { title: "ツキミソウ", singer: "Novelbright", src: "songs/tukimisou.mp3", cover: "images/tukimisou.jpg", color1: "#CFE8FF", color2: "#6AA0FF" },
+  { title: "Almond Chocolate", singer: "ILLIT", src: "songs/almond_chocolate.mp3", cover: "images/almond_chocolate.jpg", color1: "#F7D6C1", color2: "#A86A4F" }
 ];
 
 let currentIndex = 0;
