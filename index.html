@@ -4,16 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Music Player</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="bgOverlay" aria-hidden="true"></div>
+
   <div class="player">
     <div class="player-main">
-      <div class="cover">
-        <img id="coverImg" src="images/walkingwithyou.jpg" alt="cover">
-      </div>
-
+      <div class="cover"><img id="coverImg" src="images/walkingwithyou.jpg" alt="cover"></div>
       <div class="info">
         <div id="title" class="title">Walking with you</div>
         <div id="singer" class="singer">Novelbright</div>
@@ -21,26 +19,24 @@
 
       <div class="controls">
         <input id="seekbar" class="seekbar" type="range" min="0" max="100" value="0" step="1">
-        <div class="time-row">
-          <span id="currentTime" class="current-time">0:00</span>
-          <span id="duration" class="duration">0:00</span>
-        </div>
+        <div class="time-row"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
 
-        <div class="action-row">
-          <div id="prevBtn" class="action-btn" aria-label="Prev" title="前へ"><i class="material-icons">skip_previous</i></div>
-          <div id="playBtn" class="play-btn" aria-label="Play/Pause" title="再生/一時停止"><i class="material-icons">play_arrow</i></div>
-          <div id="nextBtn" class="action-btn" aria-label="Next" title="次へ"><i class="material-icons">skip_next</i></div>
+        <div class="action-row" role="group" aria-label="player controls">
+          <button id="prevBtn" class="action-btn" aria-label="前へ" title="前へ">⏮</button>
+          <button id="playBtn" class="play-btn" aria-label="再生/一時停止" title="再生/一時停止">⏯</button>
+          <button id="nextBtn" class="action-btn" aria-label="次へ" title="次へ">⏭</button>
         </div>
 
         <div class="small-controls">
-          <div id="repeatBtn" class="icon-btn" title="リピート">repeat</div>
-          <div id="favBtn" class="icon-btn" title="お気に入り">favorite</div>
-          <div id="volToggle" class="icon-btn" title="ボリューム">volume_up</div>
+          <button id="shuffleBtn" class="icon-btn" title="シャッフル" aria-pressed="false">🔀</button>
+          <button id="repeatBtn" class="icon-btn" title="リピート" aria-pressed="false">🔁</button>
+          <button id="favBtn" class="icon-btn" title="お気に入り" aria-pressed="false">♡</button>
+          <button id="volToggle" class="icon-btn" title="ボリューム">🔊</button>
 
           <div class="volume-box" id="volumeBox" style="display:none">
-            <span class="volume-down"><i class="material-icons">remove</i></span>
+            <button class="volume-down" title="音量下げ">−</button>
             <input id="volumeRange" class="volume-range" type="range" min="0" max="100" step="1" value="80">
-            <span class="volume-up"><i class="material-icons">add</i></span>
+            <button class="volume-up" title="音量上げ">＋</button>
           </div>
         </div>
       </div>
@@ -54,6 +50,8 @@
     </div>
   </div>
 
+  <!-- Sortable for drag-to-reorder -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
