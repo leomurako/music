@@ -1,55 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Music Player</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="player">
-        <div class="cover">
-            <img id="coverImg" src="images/walkingwithyou.jpg" alt="">
+  <div class="player">
+    <div class="player-main">
+      <div class="cover">
+        <img id="coverImg" src="images/walkingwithyou.jpg" alt="cover">
+      </div>
+
+      <div class="info">
+        <div id="title" class="title">Walking with you</div>
+        <div id="singer" class="singer">Novelbright</div>
+      </div>
+
+      <div class="controls">
+        <input id="seekbar" class="seekbar" type="range" min="0" max="100" value="0" step="1">
+        <div class="time-row">
+          <span id="currentTime" class="current-time">0:00</span>
+          <span id="duration" class="duration">0:00</span>
         </div>
-        <div class="info">
-            <div id="title" class="title">Walking with you</div>
-            <div id="singer" class="singer">Novelbright</div>
+
+        <div class="action-row">
+          <div id="prevBtn" class="action-btn" aria-label="Prev" title="前へ"><i class="material-icons">skip_previous</i></div>
+          <div id="playBtn" class="play-btn" aria-label="Play/Pause" title="再生/一時停止"><i class="material-icons">play_arrow</i></div>
+          <div id="nextBtn" class="action-btn" aria-label="Next" title="次へ"><i class="material-icons">skip_next</i></div>
         </div>
-        <div class="volume-box">
+
+        <div class="small-controls">
+          <div id="repeatBtn" class="icon-btn" title="リピート">repeat</div>
+          <div id="favBtn" class="icon-btn" title="お気に入り">favorite</div>
+          <div id="volToggle" class="icon-btn" title="ボリューム">volume_up</div>
+
+          <div class="volume-box" id="volumeBox" style="display:none">
             <span class="volume-down"><i class="material-icons">remove</i></span>
-            <input type="range" class="volume-range" step="1" value="80" min="0" max="100"
-                oninput="music.volume = this.value/100">
+            <input id="volumeRange" class="volume-range" type="range" min="0" max="100" step="1" value="80">
             <span class="volume-up"><i class="material-icons">add</i></span>
+          </div>
         </div>
-        <div class="btn-box">
-            <i class="material-icons repeat" onclick="handleRepeat()">repeat</i>
-            <i class="material-icons favorite active" onclick="handleFavorite()">favorite</i>
-            <i class="material-icons volume" onclick="handleVolume()">volume_up</i>
-        </div>
-        <div class="music-box">
-            <input type="range" step="1" class="seekbar" value="0" min="0" max="100" oninput="handleSeekBar()">
+      </div>
 
-            <audio class="music-element" id="music" preload="metadata"></audio>
-            <span class="current-time">0:0</span><span class="duration">0:0</span>
-
-            <div class="controls-row">
-                <span id="prevBtn" class="prev">
-                    <i class="material-icons">skip_previous</i>
-                </span>
-                <span id="playBtn" class="play">
-                    <i class="material-icons">play_arrow</i>
-                </span>
-                <span id="nextBtn" class="next">
-                    <i class="material-icons">skip_next</i>
-                </span>
-            </div>
-        </div>
-
-        <h2>プレイリスト</h2>
-        <ul id="playlist" class="playlist"></ul>
+      <audio id="music" preload="metadata"></audio>
     </div>
 
-    <script src="script.js"></script>
+    <div class="playlist-wrap">
+      <div class="playlist-title">Playlist</div>
+      <ul id="playlist" class="playlist" aria-label="playlist"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
