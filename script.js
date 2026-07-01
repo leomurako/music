@@ -26,7 +26,7 @@ const repIcon = document.querySelector('.repeat');
 // プレイリスト（必要に応じてパスや項目を編集）
 const tracks = [
   { title: "Walking with you", singer: "Novelbright", src: "songs/Walking_with_you.mp3", cover: "images/walkingwithyou.jpg" },
-  { title: "It's Me", singer: "ILLIT", src: "songs/It's_Me.mp3", cover: "images/Is's_Me.jpg" },
+  { title: "It's Me", singer: "ILLIT", src: "songs/It's_Me.mp3", cover: "images/it'sme.jpg" },
   { title: "Track 3", singer: "Artist 3", src: "songs/track3.mp3", cover: "images/cover3.jpg" }
 ];
 
